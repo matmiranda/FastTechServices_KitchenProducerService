@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-producer-service
+  labels:
+    app: order-producer
+    tier: backend
+    environment: production
+  annotations:
+    description: "Service para expor o microsserviço order-producer"
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/order-producer/metrics"
+    prometheus.io/port: "80"
+spec:
+  type: LoadBalancer
+  selector:
+    app: order-producer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

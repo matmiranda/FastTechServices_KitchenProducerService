@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KitchenProducerService.Application.DTOs
+namespace KitchenProducerService.Infrastructure.Extensions
 {
-    public class KitchenEventRequest
+    internal class DependencyInjection
     {
     }
 }

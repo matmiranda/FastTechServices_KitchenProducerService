@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Client;
+﻿using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
 
@@ -9,9 +10,16 @@ namespace KitchenProducerService.Infrastructure.MessageBroker
         private readonly IConnection _connection;
         private readonly IModel _channel;
 
-        public RabbitMQProducer()
+        public RabbitMQProducer(IOptions<RabbitMQSettings> options)
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            var config = options.Value;
+
+            var factory = new ConnectionFactory()
+            {
+                HostName = config.Host,
+                UserName = config.Username,
+                Password = config.Password,
+            };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
         }

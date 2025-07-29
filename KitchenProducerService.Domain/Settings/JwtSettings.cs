@@ -1,4 +1,6 @@
-﻿namespace KitchenProducerService.Domain.Settings
+﻿using System;
+
+namespace KitchenProducerService.Domain.Settings
 {
     public class JwtSettings
     {

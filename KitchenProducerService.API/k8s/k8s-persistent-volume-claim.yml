@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: order-producer-persistent-volume-claim
+  labels:
+    app: order-producer
+    tier: backend
+  annotations:
+    description: "Claim para acessar o volume persistente do microsserviço order-producer"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: default
