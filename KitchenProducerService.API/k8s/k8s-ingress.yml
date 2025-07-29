@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: order-producer-ingress
+  name: kitchen-producer-ingress
 spec:
   ingressClassName: nginx
   rules:
@@ -11,17 +11,17 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: order-producer-service
+            name: kitchen-producer-service
             port:
               number: 80
-      - path: /order-producer/health
+      - path: /kitchen-producer/health
         pathType: Prefix
         backend:
           service:
             name: auth-service
             port:
               number: 80
-      - path: /order-producer/metrics
+      - path: /kitchen-producer/metrics
         pathType: Prefix
         backend:
           service:

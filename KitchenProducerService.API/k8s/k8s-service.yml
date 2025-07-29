@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: order-producer-service
+  name: kitchen-producer-service
   labels:
-    app: order-producer
+    app: kitchen-producer
     tier: backend
     environment: production
   annotations:
-    description: "Service para expor o microsserviço order-producer"
+    description: "Service para expor o microsserviço kitchen-producer"
     prometheus.io/scrape: "true"
-    prometheus.io/path: "/order-producer/metrics"
+    prometheus.io/path: "/kitchen-producer/metrics"
     prometheus.io/port: "80"
 spec:
   type: LoadBalancer
   selector:
-    app: order-producer
+    app: kitchen-producer
   ports:
     - protocol: TCP
       port: 80

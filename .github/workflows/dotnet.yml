@@ -32,7 +32,7 @@ jobs:
 
       - name: Start API in Background
         env:
-          ASPNETCORE_URLS: http://localhost:5010
+          ASPNETCORE_URLS: http://localhost:5014
         run: |
           cd KitchenProducerService.Api/bin/Release/net9.0/
           dotnet KitchenProducerService.Api.dll & disown
@@ -42,8 +42,8 @@ jobs:
         run: |
           for i in {1..10}; do
             echo "Tentando acessar endpoint de health..."
-            curl -v http://localhost:5010/order-producer/health || true
-            if curl -f http://localhost:5010/order-producer/health > /dev/null 2>&1; then
+            curl -v http://localhost:5014/kitchen-producer/health || true
+            if curl -f http://localhost:5014/kitchen-producer/health > /dev/null 2>&1; then
               echo "API started successfully"
               exit 0
               fi
@@ -54,10 +54,10 @@ jobs:
             exit 1
 
       - name: Test API Health
-        run: curl -f http://localhost:5010/order-producer/health || exit 1
+        run: curl -f http://localhost:5014/kitchen-producer/health || exit 1
 
       - name: Test API Metrics
-        run: curl -f http://localhost:5010/order-producer/metrics || exit 1
+        run: curl -f http://localhost:5014/kitchen-producer/metrics || exit 1
 
       # - name: Run Unit Tests        
       #   run: dotnet test CriarContatos.Test/CriarContatos.Test.csproj --configuration Release --logger "console;verbosity=detailed"
@@ -95,11 +95,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/order-producer:latest -f KitchenProducerService.Api/Dockerfile .
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/kitchen-producer:latest -f KitchenProducerService.Api/Dockerfile .
 
       - name: Push Docker image to ACR
         run: |
-          docker push ${{ secrets.ACR_LOGIN_SERVER }}/order-producer:latest
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/kitchen-producer:latest
 
       - name: Set AKS context
         uses: azure/aks-set-context@v3
@@ -131,7 +131,7 @@ jobs:
           kubectl apply -f KitchenProducerService.Api/k8s/k8s-ingress.yml
 
           # Espera o rollout do Deployment para garantir que a atualização foi bem-sucedida
-          kubectl rollout status deployment/order-producer-deployment
+          kubectl rollout status deployment/kitchen-producer-deployment
       
       - name: Update AKS Deployment with new image
         uses: azure/k8s-deploy@v1
@@ -140,9 +140,9 @@ jobs:
             KitchenProducerService.Api/k8s/k8s-deployment.yml
             KitchenProducerService.Api/k8s/k8s-service.yml
           images: |
-            ${{ secrets.ACR_LOGIN_SERVER }}/order-producer:latest
+            ${{ secrets.ACR_LOGIN_SERVER }}/kitchen-producer:latest
           # imagepullsecrets: |
-          #   acr-order-producer
+          #   acr-kitchen-producer
 
       - name: Cleanup
         if: always()

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: order-producer-configmap
+  name: kitchen-producer-configmap
   labels:
     app: k8s
     tier: backend
