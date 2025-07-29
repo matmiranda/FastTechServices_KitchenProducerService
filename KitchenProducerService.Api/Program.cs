@@ -97,14 +97,14 @@ builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 // Mapeia o endpoint de health check
-app.MapHealthChecks("/order-producer/health");
+app.MapHealthChecks("/kitchen-producer/health");
 
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
 // Adicionar middleware do Prometheus com endpoint customizado
-app.UseMetricServer("/order-producer/metrics");
+app.UseMetricServer("/kitchen-producer/metrics");
 app.UseHttpMetrics();
 
 app.UseMiddleware<ExceptionMiddleware>();
