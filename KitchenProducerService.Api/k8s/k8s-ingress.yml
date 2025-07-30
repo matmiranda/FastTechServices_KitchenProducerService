@@ -7,7 +7,28 @@ spec:
   rules:
   - http:
       paths:
-      - path: /api/orderproducer
+      - path: /api/KitchenProducer/pendentes
+        pathType: Prefix
+        backend:
+          service:
+            name: kitchen-producer-service
+            port:
+              number: 80
+      - path: /api/KitchenProducer/aceitar
+        pathType: Prefix
+        backend:
+          service:
+            name: kitchen-producer-service
+            port:
+              number: 80
+      - path: /api/KitchenProducer/rejeitar
+        pathType: Prefix
+        backend:
+          service:
+            name: kitchen-producer-service
+            port:
+              number: 80
+      - path: /api/KitchenProducer/pronto
         pathType: Prefix
         backend:
           service:
